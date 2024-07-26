@@ -1,4 +1,4 @@
-package frc.robot.Hopper;
+package frc.robot.elevator;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
@@ -6,7 +6,7 @@ import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
 
-public class HopperConstants {    
+public class ElevatorConstants {    
     public static final Measure<Velocity<Distance>> targetSpeed = MetersPerSecond.of (30); //Adjust as needed
     public static final double kp3 = 0;
     public static final double kd3 = 0;

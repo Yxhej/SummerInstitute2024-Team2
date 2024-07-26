@@ -1,18 +1,20 @@
-package frc.robot.Hopper;
+package frc.robot.elevator;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Hopper.HopperConstants.*;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import static frc.robot.elevator.ElevatorConstants.*;
+
 import com.revrobotics.CANSparkMax;
 
 
-public class Hopper extends SubsystemBase {
+public class Elevator extends SubsystemBase {
     private final CANSparkMax motor;
     private final DigitalInput beamBreak;
     
-    public Hopper() {
+    public Elevator() {
         motor = new CANSparkMax(hopperMotorPort, MotorType.kBrushless);
         beamBreak = new DigitalInput(beamBreakPort);
     }
