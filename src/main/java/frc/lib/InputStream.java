@@ -1,4 +1,4 @@
-package org.sciborgs1155.lib;
+package frc.lib;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.LinearFilter;

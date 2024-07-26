@@ -1,4 +1,4 @@
-package org.sciborgs1155.lib;
+package frc.lib;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
