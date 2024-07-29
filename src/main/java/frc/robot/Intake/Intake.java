@@ -22,8 +22,8 @@ public class Intake extends SubsystemBase {
     private final CANSparkMax rollerMotor = new CANSparkMax(IntakePorts.roller, MotorType.kBrushless);
     // RelativeEncoder encoder
     private AbsoluteEncoder pivotEncoder;
-    private PIDController pivotController = new PIDController(kp1, kd1, ki1); //it gives the change in radians
-    private PIDController rollerController = new PIDController(kp2, kd2, ki2);
+    private PIDController pivotController = new PIDController(kp1, ki1, kd1); //it gives the change in radians
+    private PIDController rollerController = new PIDController(kp2, ki2, kd2);
 
     //autonomous
     
