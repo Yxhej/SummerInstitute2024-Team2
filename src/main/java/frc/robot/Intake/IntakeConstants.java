@@ -9,11 +9,11 @@ public class IntakeConstants {
     Measure<Angle> targetDegrees = Degrees.of(60.0); //Adjust as 
     Measure<Velocity<Distance>> targetSpeed = MetersPerSecond.of (30); //Adjust as needed
     public static final double kp1 = 0;
-    public static final double kd1 = 0;
     public static final double ki1 = 0;
+    public static final double kd1 = 0;
     public static final double kp2 = 0;
-    public static final double kd2 = 0;
     public static final double ki2 = 0;
+    public static final double kd2 = 0;
 }
 //starts up
 //goes down until position = end
