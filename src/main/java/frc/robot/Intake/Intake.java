@@ -42,9 +42,12 @@ public class Intake extends SubsystemBase {
 
     public void setRoller(){
         while(!hopperBeamSensor.get()){
-        double motorSpeed = pivotEncoder.getVelocity();
-        double v = rollerController.calculate(motorSpeed, intakeConstants.targetSpeed.magnitude());
-        rollerMotor.setVoltage(v);
+        // double motorSpeed = pivotEncoder.getVelocity();
+        // double v = rollerController.calculate(motorSpeed, intakeConstants.targetSpeed.magnitude());
+        // rollerMotor.setVoltage(v);
+        // ^Not really necessary code?
+
+          rollerMotor.setVoltage(0.5); //Adjust as needed.
         }
 
 
