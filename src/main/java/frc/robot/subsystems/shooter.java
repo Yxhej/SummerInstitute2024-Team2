@@ -26,7 +26,7 @@ public class shooter extends SubsystemBase {
       }
     
     public void turnOn(){
-        motor.set(power);
+        motor.setVoltage();
     }
 
     public void turnOff(){
