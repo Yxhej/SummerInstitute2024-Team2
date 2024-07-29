@@ -45,9 +45,9 @@ public class Intake extends SubsystemBase {
         // double motorSpeed = pivotEncoder.getVelocity();
         // double v = rollerController.calculate(motorSpeed, intakeConstants.targetSpeed.magnitude());
         // rollerMotor.setVoltage(v);
-        // ^Not really necessary code?
+        // ^Not  necessary code? But Im leaving here in case its better.
 
-          rollerMotor.setVoltage(0.5); //Adjust as needed.
+          rollerMotor.set(0.5); //Adjust as needed.
         }
 
 
