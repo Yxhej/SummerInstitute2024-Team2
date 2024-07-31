@@ -3,10 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem.Drive;
 
 /**
@@ -15,10 +15,11 @@ import frc.robot.subsystems.DriveSubsystem.Drive;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
-  public CommandXboxController controller = new CommandXboxController(0);
+public class Robot extends TimedRobot { 
+  private final XboxController controller = new XboxController(0);
   public Drive drive = new Drive();
-  
+
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -54,7 +55,10 @@ public class Robot extends TimedRobot {
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+
+  
+  }
 
   /** This function is called periodically during autonomous. */
   @Override
@@ -66,13 +70,13 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-
+     
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    drive.drive(controller.getLeftY(), controller.getRightY());
+    drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
   }
 
   @Override
