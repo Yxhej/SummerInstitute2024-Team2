@@ -13,24 +13,30 @@ import frc.robot.Ports.IntakePorts;
 
 public class shooter extends SubsystemBase {
     private final CANSparkMax motor = new CANSparkMax(7,MotorType.kBrushless);
-    private double power; 
     private final DigitalInput hopperBeamSensor = new DigitalInput (IntakePorts.intakeBeam);
     private RelativeEncoder pivotEncoder; 
+    double kp1 = 1;
+    double ki1 = 1;
+    double kd1 = 1;
     private PIDController motorController = new PIDController (kp1, ki1, kd1);
 
     public void periodic() {
         //hopper
         if (!hopperBeamSensor.get()) {
-          turnOn();
+          turnOn(4);
         }
         else if (hopperBeamSensor.get()) {
           turnOff();
         }
       }
+
+    public boolean BeamBreak() {
+        return hopperBeamSensor.get();
+    }
     
-    public void turnOn(){
+    public void turnOn(double setpoint){
         double motorSpeed = pivotEncoder.getVelocity();
-        double v = motorController.calculate(motorSpeed, );
+        double v = motorController.calculate(motorSpeed, setpoint);
         motor.setVoltage(v);
     }
 
