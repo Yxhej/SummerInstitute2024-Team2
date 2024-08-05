@@ -5,7 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Intake.Intake;
+import frc.robot.elevator.Elevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -14,7 +19,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-
+  CommandXboxController controller = new CommandXboxController(0);
+  Intake intake = new Intake();
+  Elevator elevator = new Elevator();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -62,12 +69,16 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-
+ 
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    controller.a().onTrue(intake.pivotDown().alongWith(intake.runRoller(), elevator.elevatorIntake()).andThen(intake.resetIntake()));
+
+   controller.x().whileTrue(intake.resetIntake().alongWith(elevator.backward()));
+  }
 
   @Override
   public void testInit() {
