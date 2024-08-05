@@ -1,21 +1,20 @@
 package frc.robot.subsystems.drive;
 
-import java.util.function.DoubleConsumer;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Ports;
 
 public class Drive extends SubsystemBase{  
     private DifferentialDrive robotDrive;
   
-    private final CANSparkMax leftLeader = new CANSparkMax(DriveConstants.kleftMotor1Port, MotorType.kBrushless);
-    private final CANSparkMax leftfollower = new CANSparkMax(DriveConstants.kleftMotor2Port, MotorType.kBrushless);
+    private final CANSparkMax leftLeader = new CANSparkMax(Ports.kleftMotor1Port, MotorType.kBrushless);
+    private final CANSparkMax leftfollower = new CANSparkMax(Ports.kleftMotor2Port, MotorType.kBrushless);
     
-    private final CANSparkMax rightLeader = new CANSparkMax(DriveConstants.krightMotor1Port, MotorType.kBrushless);
-    private final CANSparkMax rightfollower = new CANSparkMax(DriveConstants.krightMotor2Port, MotorType.kBrushless);
+    private final CANSparkMax rightLeader = new CANSparkMax(Ports.krightMotor1Port, MotorType.kBrushless);
+    private final CANSparkMax rightfollower = new CANSparkMax(Ports.krightMotor2Port, MotorType.kBrushless);
      
      
     
@@ -34,8 +33,8 @@ public class Drive extends SubsystemBase{
 
     
     public void drive(double leftSpeed, double rightSpeed){
-     leftLeader.set(leftSpeed);
-     rightLeader.set(rightSpeed);
+    leftLeader.set(Math.copySign(leftSpeed * leftSpeed, leftSpeed));
+    rightLeader.set(Math.copySign(rightSpeed * rightSpeed, rightSpeed));
     }
 
     public void arcadeDrive(double forward, double rotation) {
