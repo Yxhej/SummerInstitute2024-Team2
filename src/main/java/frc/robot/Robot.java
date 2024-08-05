@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Intake.Intake;
+import frc.robot.elevator.Elevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +19,7 @@ import frc.robot.Intake.Intake;
 public class Robot extends TimedRobot {
   XboxController controller = new XboxController(0);
   Intake intake = new Intake();
+  Elevator elevator = new Elevator();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -74,11 +76,16 @@ public class Robot extends TimedRobot {
     if(controller.getAButtonPressed()){
       intake.pivotDown();
       intake.runRoller();
+      elevator.forward();
    }
-
     else {
       intake.resetIntake();
    }
+
+   if(controller.getXButtonPressed()){
+    intake.resetIntake();
+    elevator.stopElevator();
+ }
   }
 
   @Override

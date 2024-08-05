@@ -2,7 +2,7 @@ package frc.robot.elevator;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Ports;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import static frc.robot.elevator.ElevatorConstants.*;
@@ -15,43 +15,33 @@ public class Elevator extends SubsystemBase {
     private final DigitalInput beamBreak;
     
     public Elevator() {
-        motor = new CANSparkMax(hopperMotorPort, MotorType.kBrushless);
-        beamBreak = new DigitalInput(beamBreakPort);
+        motor = new CANSparkMax(Ports.IntakePorts.hopperMotorPort, MotorType.kBrushless);
+        beamBreak = new DigitalInput(Ports.IntakePorts.beamBreakPort);
     }
 
-    public void setVoltage(double v) {
-        motor.setVoltage(v);
-    }
-
-    public double getVoltage() {
-        return motor.getBusVoltage();
+    public void set(double v) {
+        motor.set(v);
     }
 
     public boolean brokenBeam() {
-        return beamBreak.equals(true);
+        return beamBreak.get();
+    }
+
+    public void stopElevator(){
+        if (!brokenBeam()){
+            motor.set(0);
+        }
     }
     
     public Command runHopper(double v) {
-        return runOnce(() -> setVoltage(v));
+        return runOnce(() -> set(v));
     } 
 
-
     public Command forward() { 
-        return runHopper(OPERATING_VOLTS).until(() -> brokenBeam()).andThen(runHopper(0));
-        
+        return runHopper(speedOutput).until(() -> brokenBeam()).andThen(runHopper(0));
     }
-    
-
-    // public Command forward() {
-    //     hopper.setVoltage(OPERATING_VOLTS);
-    //     if (hopper.brokenBeam()) {
-    //         hopper.setVoltage(0); 
-    //     }
-    //     return
-    // }
-
 
     public Command backward(){
-        return runHopper(-1 * OPERATING_VOLTS).until(() -> brokenBeam()).andThen(runHopper(0));
+        return runHopper(-1 * speedOutput).until(() -> brokenBeam()).andThen(runHopper(0));
     }
 }
