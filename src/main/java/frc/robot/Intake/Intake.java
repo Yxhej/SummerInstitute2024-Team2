@@ -33,23 +33,20 @@ public class Intake extends SubsystemBase {
 
 
     //human
-    public void setPosition() { 
+    public void pivotDown() { 
         double motorDegrees = pivotEncoder.getPosition();
         double v = pivotController.calculate(motorDegrees, intakeConstants.targetDegrees.magnitude());
         pivotMotor.setVoltage(v);
     }
 
 
-    public void setRoller(){
-        while(!hopperBeamSensor.get()){
+    public void runRoller(){
         // double motorSpeed = pivotEncoder.getVelocity();
         // double v = rollerController.calculate(motorSpeed, intakeConstants.targetSpeed.magnitude());
         // rollerMotor.setVoltage(v);
         // ^Not  necessary code? But Im leaving here in case its better.
 
           rollerMotor.set(0.5); //Adjust as needed.
-        }
-
 
     }
 
@@ -60,8 +57,4 @@ public class Intake extends SubsystemBase {
         rollerMotor.set(0);
     }
 
-    @Override
-    public void periodic() {
-        setPosition();
-    }   
 }

@@ -65,15 +65,21 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if(controller.getAButtonPressed()){
-      intake.setPosition();
-     intake.setRoller();
-   }
+ 
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if(controller.getAButtonPressed()){
+      intake.pivotDown();
+      intake.runRoller();
+   }
+
+    else {
+      intake.resetIntake();
+   }
+  }
 
   @Override
   public void testInit() {
