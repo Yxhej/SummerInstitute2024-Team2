@@ -16,7 +16,7 @@ import frc.robot.subsystems.drive.Drive;
  */
 public class Robot extends TimedRobot { 
   private final XboxController controller = new XboxController(0);
-  public Drive drive = new Drive();
+  private final Drive drive = new Drive();
 
 
   /**
