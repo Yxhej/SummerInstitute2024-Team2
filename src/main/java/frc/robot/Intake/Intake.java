@@ -11,19 +11,18 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports.IntakePorts;
+
+import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.Intake.IntakeConstants.*;
 
   //intake roller
 public class Intake extends SubsystemBase {
 
-    private IntakeConstants intakeConstants = new IntakeConstants();
     private final CANSparkMax pivotMotor = new CANSparkMax(IntakePorts.pivot, MotorType.kBrushless);
-    private final DigitalInput hopperBeamSensor = new DigitalInput(IntakePorts.intakeBeam);
     private final CANSparkMax rollerMotor = new CANSparkMax(IntakePorts.roller, MotorType.kBrushless);
-    // RelativeEncoder encoder
+
     private AbsoluteEncoder pivotEncoder;
     private PIDController pivotController = new PIDController(kp1, ki1, kd1); //it gives the change in radians
-    private PIDController rollerController = new PIDController(kp2, ki2, kd2);
 
     //autonomous
     
@@ -35,7 +34,7 @@ public class Intake extends SubsystemBase {
     //human
     public void pivotDown() { 
         double motorDegrees = pivotEncoder.getPosition();
-        double v = pivotController.calculate(motorDegrees, intakeConstants.targetDegrees.magnitude());
+        double v = pivotController.calculate(motorDegrees, TARGET_DEGREES.in(Degrees));
         pivotMotor.setVoltage(v);
     }
 
