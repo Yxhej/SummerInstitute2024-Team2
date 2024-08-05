@@ -1,6 +1,7 @@
 package frc.robot.elevator;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -24,24 +25,28 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean brokenBeam() {
-        return beamBreak.get();
+        return !beamBreak.get();
     }
 
-    public void stopElevator(){
-        if (!brokenBeam()){
-            motor.set(0);
-        }
+    public Command stopElevator(){
+        return runHopper(0);
     }
     
     public Command runHopper(double v) {
-        return runOnce(() -> set(v));
+        return runOnce(() -> set(v))
+        .andThen(Commands.idle(this))
+        .finallyDo(() -> set(0));
     } 
 
     public Command forward() { 
-        return runHopper(speedOutput).until(() -> brokenBeam()).andThen(runHopper(0));
+        return runHopper(elevatorSpeedOutput).until(() -> brokenBeam());
     }
 
     public Command backward(){
-        return runHopper(-1 * speedOutput).until(() -> brokenBeam()).andThen(runHopper(0));
+        return runHopper(-1 * elevatorSpeedOutput).until(() -> brokenBeam());
+    }
+
+    public Command elevatorIntake(){
+        return forward().until(() -> brokenBeam());
     }
 }

@@ -9,6 +9,8 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports.IntakePorts;
 
@@ -24,36 +26,36 @@ public class Intake extends SubsystemBase {
     private AbsoluteEncoder pivotEncoder;
     private PIDController pivotController = new PIDController(kp1, ki1, kd1); //it gives the change in radians
 
-    //autonomous
-    
-
-
-
-
-
     //human
-    public void pivotDown() { 
-        double motorDegrees = pivotEncoder.getPosition();
-        double v = pivotController.calculate(motorDegrees, TARGET_DEGREES.in(Degrees));
-        pivotMotor.setVoltage(v);
+    public Command pivotDown() { 
+        return run(() -> {
+                    double motorDegrees = pivotEncoder.getPosition();
+                    double v = pivotController.calculate(motorDegrees, TARGET_DEGREES.in(Degrees));
+                    pivotMotor.setVoltage(v);
+        })
+        .until(() -> pivotController.atSetpoint());
     }
 
 
-    public void runRoller(){
+    public Command runRoller(){
         // double motorSpeed = pivotEncoder.getVelocity();
         // double v = rollerController.calculate(motorSpeed, intakeConstants.targetSpeed.magnitude());
         // rollerMotor.setVoltage(v);
         // ^Not  necessary code? But Im leaving here in case its better.
 
-          rollerMotor.set(0.5); //Adjust as needed.
-
+        return runOnce(() -> rollerMotor.set(intakeOutputSpeed))
+        .andThen(Commands.idle(this))
+        .finallyDo(() -> rollerMotor.set(0)); //Adjust as needed.
     }
 
-    public void resetIntake(){
-        double motorDegrees = pivotEncoder.getPosition();
-        double v = pivotController.calculate(motorDegrees, 0); //change when testing with robot
-        pivotMotor.setVoltage(v);
-        rollerMotor.set(0);
+    public Command resetIntake(){
+        return run(() -> {
+                double motorDegrees = pivotEncoder.getPosition();
+                double out = pivotController.calculate(motorDegrees, 0); //change when testing with robot
+                pivotMotor.setVoltage(out);
+                rollerMotor.set(0);
+        })
+        .until(() -> pivotController.atSetpoint());
     }
 
 }
