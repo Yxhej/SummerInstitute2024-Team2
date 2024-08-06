@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.shooter;
+import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,7 +16,8 @@ import frc.robot.subsystems.shooter;
  * project.
  */
 public class Robot extends TimedRobot {
-  private final shooter shooter = new shooter();
+  private final Shooter shooter = new Shooter();
+
   private final XboxController operator = new XboxController(Ports.CONTROLLER);
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -75,7 +76,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if(operator.getXButtonPressed()){
       if (!shooter.BeamBreak()){
-      shooter.turnOn(4);}
+      shooter.goTo(4);}
     }
   }
 

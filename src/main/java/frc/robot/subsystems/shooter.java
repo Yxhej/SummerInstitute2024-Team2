@@ -6,24 +6,26 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Ports.IntakePorts;
 
-public class shooter extends SubsystemBase {
+public class Shooter extends SubsystemBase {
     private final CANSparkMax motor = new CANSparkMax(7,MotorType.kBrushless);
     private final DigitalInput hopperBeamSensor = new DigitalInput (IntakePorts.intakeBeam);
     private RelativeEncoder pivotEncoder; 
     double kp1 = 1;
     double ki1 = 1;
     double kd1 = 1;
-    private PIDController motorController = new PIDController (kp1, ki1, kd1);
+    private PIDController motorController = new PIDController(kp1, ki1, kd1);
 
     public void periodic() {
         //hopper
         if (!hopperBeamSensor.get()) {
-          turnOn(4);
+          goTo(4);
         }
         else if (hopperBeamSensor.get()) {
           turnOff();
@@ -34,13 +36,17 @@ public class shooter extends SubsystemBase {
         return hopperBeamSensor.get();
     }
     
-    public void turnOn(double setpoint){
-        double motorSpeed = pivotEncoder.getVelocity();
-        double v = motorController.calculate(motorSpeed, setpoint);
-        motor.setVoltage(v);
+    public Command goTo(double speed){
+      return run(() -> {
+          double motorSpeed = pivotEncoder.getVelocity();
+          double v = motorController.calculate(motorSpeed, speed);
+          motor.setVoltage(v);
+      })
+      .until(() -> motorController.atSetpoint());
     }
 
-    public void turnOff(){
-        motor.set(0);
+    public Command turnOff(){
+        return runOnce(() -> motor.set(0));
     }
+
 }
