@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.shooter;
 
 import com.revrobotics.CANSparkMax;
 
@@ -49,4 +49,7 @@ public class Shooter extends SubsystemBase {
         return runOnce(() -> motor.set(0));
     }
 
+    public Command shoot(double speed){
+      return goTo(speed).until(() -> BeamBreak());
+    }
 }
