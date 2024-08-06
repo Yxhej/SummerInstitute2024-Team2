@@ -6,11 +6,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Intake.Intake;
 import frc.robot.elevator.Elevator;
+import frc.robot.shooter.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +21,7 @@ import frc.robot.elevator.Elevator;
  * project.
  */
 public class Robot extends TimedRobot {
+  private final Shooter shooter = new Shooter();
   CommandXboxController controller = new CommandXboxController(0);
   Intake intake = new Intake();
   Elevator elevator = new Elevator();
@@ -61,7 +64,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    
+  }
 
   @Override
   public void teleopInit() {
@@ -75,9 +80,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    controller.x().onTrue(shooter.shoot(1).deadlineWith(elevator.forward()));
+
     controller.a().onTrue(intake.pivotDown().alongWith(intake.runRoller(), elevator.elevatorIntake()).andThen(intake.resetIntake()));
 
-   controller.x().whileTrue(intake.resetIntake().alongWith(elevator.backward()));
+   controller.rightBumper().whileTrue(intake.resetIntake().alongWith(elevator.backward()));
   }
 
   @Override
