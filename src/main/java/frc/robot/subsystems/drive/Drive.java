@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 
 public class Drive extends SubsystemBase {
-  private DifferentialDrive robotDrive;
+  private final DifferentialDrive robotDrive;
 
   private final CANSparkMax leftLeader =
       new CANSparkMax(Ports.kleftMotor1Port, MotorType.kBrushless);
