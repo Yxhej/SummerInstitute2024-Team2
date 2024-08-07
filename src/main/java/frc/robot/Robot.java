@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Intake.Intake;
 import frc.robot.elevator.Elevator;
@@ -78,9 +79,13 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
 
-    controller.x().onTrue(shooter.shoot(1).deadlineWith(elevator.forward()));
+    controller
+        .x()
+        .whileTrue(
+            Commands.parallel(
+                shooter.goTo(4),
+                Commands.waitUntil(shooter::atSetpoint).andThen(elevator.runHopper(1))));
 
     controller
         .a()
@@ -90,7 +95,7 @@ public class Robot extends TimedRobot {
                 .alongWith(intake.runRoller(), elevator.elevatorIntake())
                 .andThen(intake.resetIntake()));
 
-    controller.rightBumper().whileTrue(intake.resetIntake().alongWith(elevator.backward()));
+    drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
   }
 
   @Override
