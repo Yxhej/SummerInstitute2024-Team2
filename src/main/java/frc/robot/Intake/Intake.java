@@ -4,7 +4,7 @@
 
 package frc.robot.Intake;
 
-import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.Intake.IntakeConstants.*;
 
 import com.revrobotics.AbsoluteEncoder;
@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase {
   public Command pivotDown() {
     return run(() -> {
           double motorDegrees = pivotEncoder.getPosition();
-          double v = pivotController.calculate(motorDegrees, TARGET_DEGREES.in(Rotations));
+          double v = pivotController.calculate(motorDegrees, TARGET_DEGREES.in(Degrees));
           pivotMotor.setVoltage(v);
         })
         .until(() -> pivotController.atSetpoint());

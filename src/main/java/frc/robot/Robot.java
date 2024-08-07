@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Intake.Intake;
 import frc.robot.elevator.Elevator;
 import frc.robot.shooter.Shooter;
+import frc.robot.subsystems.drive.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,9 +21,10 @@ import frc.robot.shooter.Shooter;
  */
 public class Robot extends TimedRobot {
   private final Shooter shooter = new Shooter();
-  CommandXboxController controller = new CommandXboxController(0);
   Intake intake = new Intake();
   Elevator elevator = new Elevator();
+  private final CommandXboxController controller = new CommandXboxController(0);
+  private final Drive drive = new Drive();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -93,7 +95,7 @@ public class Robot extends TimedRobot {
                 .alongWith(intake.runRoller(), elevator.elevatorIntake())
                 .andThen(intake.resetIntake()));
 
-    controller.rightBumper().whileTrue(intake.resetIntake().alongWith(elevator.backward()));
+    drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
   }
 
   @Override
