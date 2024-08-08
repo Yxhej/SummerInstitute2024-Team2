@@ -6,6 +6,10 @@ public final class Ports {
   public static final int krightMotor1Port = 25;
   public static final int krightMotor2Port = 37;
 
+public static final class shooterPorts {
+  public static final int motor = 1;
+}
+
   public static final class IntakePorts {
     public static final int evel = -1;
     public static final int pivot = -1;
