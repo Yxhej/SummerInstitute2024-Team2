@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.subsystems.drive.DriveConstants.Maxspeed;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -31,6 +33,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    drive.setDefaultCommand(drive.drivePID( controller.getLeftY() * Maxspeed,controller.getRightY() * Maxspeed));
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
   }
@@ -78,7 +81,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    drive.arcadeDrive(controller.getLeftY(), controller.getRightX());
+     
 
     controller.x().onTrue(shooter.shoot(1).deadlineWith(elevator.forward()));
 
